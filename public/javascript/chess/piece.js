@@ -30,9 +30,12 @@ Piece.prototype.render = function () {
   );
   if (element) {
     // Remove the existing piece element from the DOM if it exists
+
     if (this.$el && this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el);
+      this.$el = null;
     }
+    this.$el = null;
     // Create a new div element to represent the piece
     var pieceElement = document.createElement("div");
 
@@ -51,9 +54,10 @@ Piece.prototype.render = function () {
   }
 };
 
-Piece.prototype.kill = function (targetPiece) {
-  // console.log("Method not implemeted by: " + typeof this);
+Piece.prototype.kill = function () {
+  //  console.log("Method not implemeted by: " + typeof this);
   if (this.$el && this.$el.parentNode) {
     this.$el.parentNode.removeChild(this.$el);
   }
+  this.position = null;
 };

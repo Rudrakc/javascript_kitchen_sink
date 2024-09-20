@@ -101,6 +101,7 @@ Board.prototype.boardClicked = function (event) {
                 clickedPiece.color !== this.selectedPiece.color
               ) {
                 clickedPiece.kill();
+               
               }
               pieceElement.classList.remove("moving");
               pieceElement.style.removeProperty("--moveX");
@@ -112,9 +113,9 @@ Board.prototype.boardClicked = function (event) {
         }
       }
     }
-    // This is to ensure if the moveTo function returns false so I set the selectedPiece 
+    // This is to ensure if the moveTo function returns false so I set the selectedPiece
     // property to or else I couldn't select a new piece
-    if(!hasMoved) this.selectedPiece = null;
+    if (!hasMoved) this.selectedPiece = null;
   }
 };
 

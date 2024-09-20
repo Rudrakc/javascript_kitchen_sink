@@ -7,14 +7,17 @@ var Pawn = function (config) {
 Pawn.prototype = new Piece({});
 
 Pawn.prototype.validateMove = function (targetPosition, board) {
-  const curRow = this.position.charCodeAt(1) - 48;
-  const curCol = this.position.charCodeAt(0) - 65;
-  const tarRow = targetPosition.row.charCodeAt(0) - 48;
-  const tarCol = targetPosition.col.charCodeAt(0) - 65;
+  const curRow = this.position.charCodeAt(1) - 1;
+  const curCol = this.position.charCodeAt(0) - 64;
+  const tarRow = targetPosition.row.charCodeAt(0) - 1;
+  const tarCol = targetPosition.col.charCodeAt(0) - 64;
+  console.log("curRow: " + curRow +" tarrow: " + tarRow);
 
   const targetPiece = board.getPieceAt(targetPosition);
   const rowDiff = this.color === "white" ? tarRow - curRow : curRow - tarRow;
   const colDiff = Math.abs(tarCol - curCol);
+  console.log(this.color);
+  console.log("rowdif " + rowDiff + "coldif " + colDiff);
 
   let canMove = false;
   if (tarCol === curCol) {
