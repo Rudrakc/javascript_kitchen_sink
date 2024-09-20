@@ -1,115 +1,143 @@
-#game-ct { 
-    width: 400px;
-    height: 400px;
-    margin: 20px auto;
-    border: 2px solid #333;
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
+@keyframes movePiece {
+  from {
+    transform: translate(0, 0);
   }
-  #game-ct > li {
-    list-style-type: none;
-    padding: 0;
+  to {
+    transform: translate(var(--moveX), var(--moveY));
   }
-  #game-ct > li > ul {
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    display: contents;
-  }
-  #game-ct li > ul > li {
-    width: 100%;
-    height: 50px;
-    list-style-type: none;
-  }
-  #game-ct li:nth-child(odd) li:nth-child(even),
-  #game-ct li:nth-child(even) li:nth-child(odd) {
-    background-color: #b58863;
-  }
-  #game-ct li:nth-child(even) li:nth-child(even),
-  #game-ct li:nth-child(odd) li:nth-child(odd) {
-    background-color: #f0d9b5;
-  }
-
-
-
-.piece {
-    background-image: url('/images/chess_sprite_transparent.png');
-    background-repeat: no-repeat;
-    background-size: 600% 200%;
 }
 
-
-.white.king {
-    background-position: -9px 0;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #dec8b1; /* Light gray background */
+  font-family: Arial, sans-serif;
 }
 
-.black.king {
-    background-position: -9px -50px;
+#chessboard-ct {
+  background-color: wheat; /* Warm, light brown to complement the board colors */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 8px;
 }
 
-
-.white.queen {
-    background-position: -55px 0;
+#game-ct {
+  width: 80vmin;
+  height: 80vmin;
+  max-width: 600px;
+  max-height: 600px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 2px solid #8b4513; /* Dark brown border */
 }
 
-.black.queen {
-    background-position: -55px -50px;
+#game-ct > li {
+  padding: 0;
 }
 
-.white.bishop {
-    background-position: -103px 0;
+#game-ct > li > ul {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: contents;
 }
 
-.black.bishop {
-    background-position: -103px -50px;
+#game-ct li > ul > li {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.white.knight {
-    background-position: -152px 0;
+#game-ct li:nth-child(odd) li:nth-child(even),
+#game-ct li:nth-child(even) li:nth-child(odd) {
+  background-color: #b58863; /* Dark squares */
 }
 
-.black.knight {
-    background-position: -152px -50px;
-}
-
-.white.rook {
-    background-position: -198px 0;
-}
-
-.black.rook {
-    background-position: -198px -50px;
-}
-
-.white.pawn {
-    background-position: -247px 0;
-}
-
-.black.pawn {
-    background-position: -247px -50px;
+#game-ct li:nth-child(even) li:nth-child(even),
+#game-ct li:nth-child(odd) li:nth-child(odd) {
+  background-color: #f0d9b5; /* Light squares */
 }
 
 .piece {
-    width: 100%;
-    height: 100%;
+  width: 80%; /* Reduced from 90% to ensure better centering */
+  height: 80%;
+  background-image: url("../images/chess_sprite_transparent.png");
+  background-repeat: no-repeat;
+  background-size: 600% 200%;
+  background-position: center; /* Ensures the piece is centered within its background area */
+  transition: transform 0.2s ease;
+}
+.piece.moving {
+  animation: movePiece 0.2s ease-in-out forwards;
+}
+
+.piece:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 .piece.selected {
-    box-shadow: 0 0 10px 3px rgba(0, 255, 0, 0.7);
-    transform: scale(1.1);
-    transition: all 0.3s ease;
-    z-index: 10;
+  box-shadow: 0 0 10px 3px rgba(0, 255, 0, 0.7);
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+  z-index: 10;
 }
 
 .piece.selected::after {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border: 2px solid #00ff00;
-    border-radius: 5px;
-    pointer-events: none;
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px solid #00ff00;
+  border-radius: 5px;
+  pointer-events: none;
 }
 
-
+/* Piece positions - adjusted to ensure proper centering */
+.white.king {
+  background-position: -2% -2%;
+}
+.black.king {
+  background-position: -2% 105%;
+}
+.white.queen {
+  background-position: 20% -5%;
+}
+.black.queen {
+  background-position: 20% 105%;
+}
+.white.bishop {
+  background-position: 41% -5%;
+}
+.black.bishop {
+  background-position: 41% 105%;
+}
+.white.knight {
+  background-position: 62% -5%;
+}
+.black.knight {
+  background-position: 62% 105%;
+}
+.white.rook {
+  background-position: 83% -5%;
+}
+.black.rook {
+  background-position: 83% 105%;
+}
+.white.pawn {
+  background-position: 104% -5%;
+}
+.black.pawn {
+  background-position: 104% 105%;
+}
