@@ -1,27 +1,40 @@
-@keyframes movePiece {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(var(--moveX), var(--moveY));
-  }
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
 body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
-  background-color: #dec8b1; /* Light gray background */
-  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Roboto', sans-serif;
+}
+
+.chess-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #34495e;
+  margin-bottom: 20px;
+  font-weight: 300;
+  font-size: 2.5em;
+}
+
+.board-frame {
+  background-color: #34495e;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 #chessboard-ct {
-  background-color: wheat; /* Warm, light brown to complement the board colors */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  border-radius: 8px;
+  background-color: #ecf0f1;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 #game-ct {
@@ -35,7 +48,7 @@ body {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  border: 2px solid #8b4513; /* Dark brown border */
+  border: 1px solid #bdc3c7;
 }
 
 #game-ct > li {
@@ -55,27 +68,29 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 #game-ct li:nth-child(odd) li:nth-child(even),
 #game-ct li:nth-child(even) li:nth-child(odd) {
-  background-color: #b58863; /* Dark squares */
+  background-color: #bdc3c7;
 }
 
 #game-ct li:nth-child(even) li:nth-child(even),
 #game-ct li:nth-child(odd) li:nth-child(odd) {
-  background-color: #f0d9b5; /* Light squares */
+  background-color: #ecf0f1;
 }
 
 .piece {
-  width: 80%; /* Reduced from 90% to ensure better centering */
+  width: 80%;
   height: 80%;
   background-image: url("../images/chess_sprite_transparent.png");
   background-repeat: no-repeat;
   background-size: 600% 200%;
-  background-position: center; /* Ensures the piece is centered within its background area */
+  background-position: center;
   transition: transform 0.2s ease;
 }
+
 .piece.moving {
   animation: movePiece 0.2s ease-in-out forwards;
 }
@@ -86,22 +101,31 @@ body {
 }
 
 .piece.selected {
-  box-shadow: 0 0 10px 3px rgba(0, 255, 0, 0.7);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.7);
   transform: scale(1.1);
   transition: all 0.3s ease;
   z-index: 10;
 }
 
-.piece.selected::after {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  border: 2px solid #00ff00;
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.player-info {
+  padding: 10px 20px;
+  background-color: #34495e;
+  color: #ecf0f1;
   border-radius: 5px;
-  pointer-events: none;
+  font-weight: 400;
+}
+
+/* Piece positions remain the same */
+
+@keyframes movePiece {
+  from { transform: translate(0, 0); }
+  to { transform: translate(var(--moveX), var(--moveY)); }
 }
 
 /* Piece positions - adjusted to ensure proper centering */
