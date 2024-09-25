@@ -6,6 +6,8 @@ var Bishop = function(config){
 
 
 Bishop.prototype = new Piece({});
-Bishop.prototype.move = function(newPosition){
+Bishop.prototype.validateMove = function(targetPosition, board){
+
+    // TODO: Ayush Kesharwani complete this functionality
 
 }

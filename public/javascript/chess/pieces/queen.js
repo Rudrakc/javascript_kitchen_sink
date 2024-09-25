@@ -6,6 +6,8 @@ var Queen = function(config){
 
 
 Queen.prototype = new Piece({});
-Queen.prototype.move = function(newPosition){
+Queen.prototype.validateMove = function(targetPosition, board){
+
+    //TODO: Yashraj Sunil Kupekar complete this funtionality
 
 }

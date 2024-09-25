@@ -6,6 +6,8 @@ var Knight = function(config){
 
 
 Knight.prototype = new Piece({});
-Knight.prototype.move = function(newPosition){
+Knight.prototype.validateMove = function(targetPosition, board){
+
+    //TODO: Vinay Reddy Yedula complete this functionality
 
 }

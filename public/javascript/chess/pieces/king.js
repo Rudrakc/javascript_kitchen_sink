@@ -6,6 +6,7 @@ var King = function(config){
 
 
 King.prototype = new Piece({});
-King.prototype.move = function(newPosition){
+King.prototype.validateMove = function(targetPosition, board){
 
+    //TODO: Ashwin Saklecha complete this functionality
 }
