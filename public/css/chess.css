@@ -92,12 +92,14 @@ h1 {
 }
 
 .piece.moving {
-  animation: movePiece 0.2s ease-in-out forwards;
+  animation: movePiece 0.2s ease-in-out;
+  z-index: 10;
 }
 
 .piece:hover {
   transform: scale(1.1);
   cursor: pointer;
+  z-index: 5;
 }
 
 .piece.selected {
@@ -124,8 +126,14 @@ h1 {
 /* Piece positions remain the same */
 
 @keyframes movePiece {
-  from { transform: translate(0, 0); }
-  to { transform: translate(var(--moveX), var(--moveY)); }
+  from { 
+    transform: translate(0, 0); 
+    z-index: 10;
+  }
+  to { 
+    transform: translate(var(--moveX), var(--moveY)); 
+    z-index: 10;
+  }
 }
 
 /* Piece positions - adjusted to ensure proper centering */

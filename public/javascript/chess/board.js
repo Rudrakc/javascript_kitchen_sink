@@ -60,63 +60,66 @@ Board.prototype.clearSelection = function () {
 };
 
 Board.prototype.boardClicked = function (event) {
-  this.clearSelection();
   const clickedCell = this.getClickedBlock(event);
+  if (!clickedCell) return;
+
+  this.clearSelection();
+
   const clickedPiece = this.getPieceAt(clickedCell);
+
   if (clickedPiece && this.selectedPiece === null) {
-    //Add 'selected' class to the clicked piece
     this.selectPiece(event.target, clickedPiece);
-  } else {
-    //update position of the selected piece to new position
-    let hasMoved = false;
-    if (
-      this.selectedPiece &&
-      this.selectedPiece.validateMove(clickedCell, this)
-    ) {
-      const fromCell = this.getCellElement(this.selectedPiece.position);
-      const toCell = this.getCellElement(clickedCell.col + clickedCell.row);
-
-      if (fromCell && toCell) {
-        const fromRect = fromCell.getBoundingClientRect();
-        const toRect = toCell.getBoundingClientRect();
-
-        const moveX = toRect.left - fromRect.left;
-        const moveY = toRect.top - fromRect.top;
-
-        const pieceElement = fromCell.querySelector(".piece");
-
-        if (pieceElement) {
-          pieceElement.style.setProperty("--moveX", `${moveX}px`);
-          pieceElement.style.setProperty("--moveY", `${moveY}px`);
-          pieceElement.classList.add("moving");
-
-          hasMoved = true;
-
-          pieceElement.addEventListener(
-            "animationend",
-            () => {
-              this.selectedPiece.moveTo(clickedCell);
-              if (
-                clickedPiece &&
-                clickedPiece.color !== this.selectedPiece.color
-              ) {
-                clickedPiece.kill();
-               
-              }
-              pieceElement.classList.remove("moving");
-              pieceElement.style.removeProperty("--moveX");
-              pieceElement.style.removeProperty("--moveY");
-              this.selectedPiece = null;
-            },
-            { once: true }
-          );
-        }
-      }
-    }
-    // This is to ensure if the moveTo function returns false so I set the selectedPiece
-    // property to or else I couldn't select a new piece
-    if (!hasMoved) this.selectedPiece = null;
+  } else if (this.selectedPiece) {
+    this.handleMove(clickedCell, clickedPiece);
   }
+};
+
+Board.prototype.handleMove = function (clickedCell, clickedPiece) {
+  if (this.selectedPiece.validateMove(clickedCell, this) && clickedPiece.color !== this.selectedPiece.color) {
+    const fromCell = this.getCellElement(this.selectedPiece.position);
+    const toCell = this.getCellElement(clickedCell.col + clickedCell.row);
+    this.animateMove(fromCell, toCell, clickedPiece);
+
+  } else {
+    this.selectedPiece = null; // Deselect if invalid move
+  }
+};
+
+Board.prototype.animateMove = function (fromCell, toCell, clickedPiece) {
+  const fromRect = fromCell.getBoundingClientRect();
+  const toRect = toCell.getBoundingClientRect();
+  const moveX = toRect.left - fromRect.left;
+  const moveY = toRect.top - fromRect.top;
+  const pieceElement = fromCell.querySelector(".piece");
+
+  if (pieceElement) {
+    pieceElement.style.setProperty("--moveX", `${moveX}px`);
+    pieceElement.style.setProperty("--moveY", `${moveY}px`);
+    pieceElement.classList.add("moving");
+
+    pieceElement.addEventListener(
+      "animationend",
+      () => {
+        this.finalizeMove(toCell, pieceElement, clickedPiece);
+      },
+      { once: true }
+    );
+  }
+};
+
+Board.prototype.finalizeMove = function (toCell, pieceElement, clickedPiece) {
+
+  if (clickedPiece && clickedPiece.color !== this.selectedPiece.color) {
+    clickedPiece.kill(); // Capture logic
+  }
+  this.selectedPiece.moveTo({
+    col: toCell.closest("li[data-col]").getAttribute("data-col"),
+    row: toCell.getAttribute("data-row"),
+  });
+  pieceElement.classList.remove("moving");
+  pieceElement.style.removeProperty("--moveX");
+  pieceElement.style.removeProperty("--moveY");
+  this.selectedPiece = null;
 };
 
 Board.prototype.getCellElement = function (position) {
