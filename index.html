@@ -1,21 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minimal Chess</title>
     <link rel="stylesheet" href="./public/css/chess.css" />
-</head>
-<body>
+  </head>
+  <body>
     <div class="chess-container">
-        <h1>Chess</h1>
-        <div class="board-frame">
-            <div id="chessboard-ct"></div>
-        </div>
-        <div class="game-info">
-            <!-- <div class="player-info white-player">White</div>
-            <div class="player-info black-player">Black</div> -->
-        </div>
+      <h1>Chess</h1>
+      <div class="board-frame">
+        <div id="chessboard-ct"></div>
+      </div>
+      <div class="game-info">
+        <!-- <div class="player-info white-player">White</div>
+                <div class="player-info black-player">Black</div> -->
+      </div>
+    </div>
+
+    <!-- Win Modal -->
+    <div id="winModal" class="modal">
+      <script
+        src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+        type="module"
+      ></script>
+      <dotlottie-player
+        src="https://lottie.host/6cf88ad2-1a88-42b4-a62d-4fc83fdacea4/Epqnq9YG0q.json"
+        background="transparent"
+        speed="1"
+        class="confetti-animation"
+
+        direction="1"
+        playMode="normal"
+        
+      ></dotlottie-player>
+      <div class="modal-content">
+        <h2 id="winnerMessage"></h2>
+        <button id="closeModal">Play Again</button>
+      </div>
     </div>
 
     <script src="./public/javascript/chess/piece.js"></script>
@@ -27,5 +49,5 @@
     <script src="./public/javascript/chess/pieces/rook.js"></script>
     <script src="./public/javascript/chess/board.js"></script>
     <script src="./public/javascript/chess/chess.js"></script>
-</body>
+  </body>
 </html>

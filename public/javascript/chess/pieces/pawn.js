@@ -11,13 +11,13 @@ Pawn.prototype.validateMove = function (targetPosition, board) {
   const curCol = this.position.charCodeAt(0) - 64;
   const tarRow = targetPosition.row.charCodeAt(0) - 1;
   const tarCol = targetPosition.col.charCodeAt(0) - 64;
-  console.log("curRow: " + curRow +" tarrow: " + tarRow);
+  // console.log("curRow: " + curRow +" tarrow: " + tarRow);
 
   const targetPiece = board.getPieceAt(targetPosition);
   const rowDiff = this.color === "white" ? tarRow - curRow : curRow - tarRow;
   const colDiff = Math.abs(tarCol - curCol);
-  console.log(this.color);
-  console.log("rowdif " + rowDiff + "coldif " + colDiff);
+  // console.log(this.color);
+  // console.log("rowdif " + rowDiff + "coldif " + colDiff);
 
   let canMove = false;
   if (tarCol === curCol) {

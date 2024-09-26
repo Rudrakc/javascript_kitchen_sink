@@ -2,7 +2,7 @@ var Board = function (config) {
   this.root_id = config.root_id;
   this.$el = document.getElementById(this.root_id);
   this.selectedPiece = null;
-  this.draggedPiece = null;
+  this.currentTurn = 'white';
   this.generateBoardDom();
   this.addListeners();
 };
@@ -11,7 +11,7 @@ Board.prototype.addListeners = function () {
   this.$el.addEventListener("click", this.boardClicked.bind(this));
 };
 
-Board.prototype.generateBoardDom = function (config) {
+Board.prototype.generateBoardDom = function () {
   let boardHTML = '<ul id="game-ct">';
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
@@ -67,7 +67,7 @@ Board.prototype.boardClicked = function (event) {
 
   const clickedPiece = this.getPieceAt(clickedCell);
 
-  if (clickedPiece && this.selectedPiece === null) {
+  if (clickedPiece && this.selectedPiece === null && clickedPiece.color === this.currentTurn) {
     this.selectPiece(event.target, clickedPiece);
   } else if (this.selectedPiece) {
     this.handleMove(clickedCell, clickedPiece);
@@ -81,7 +81,7 @@ Board.prototype.handleMove = function (clickedCell, clickedPiece) {
     this.animateMove(fromCell, toCell, clickedPiece);
 
   } else {
-    this.selectedPiece = null; // Deselect if invalid move
+    this.selectedPiece = null;
   }
 };
 
@@ -108,9 +108,13 @@ Board.prototype.animateMove = function (fromCell, toCell, clickedPiece) {
 };
 
 Board.prototype.finalizeMove = function (toCell, pieceElement, clickedPiece) {
-
-  if (clickedPiece && clickedPiece.color !== this.selectedPiece.color) {
-    clickedPiece.kill(); // Capture logic
+  // this.showWinModal(this.currentTurn);
+  if (clickedPiece && clickedPiece.color !== this.selectedPiece.color ) {
+    clickedPiece.kill(); 
+    if(clickedPiece.type === 'king') {
+      console.log(this.currentTurn+" is the winner");
+      this.showWinModal(this.currentTurn);
+    }
   }
   this.selectedPiece.moveTo({
     col: toCell.closest("li[data-col]").getAttribute("data-col"),
@@ -119,6 +123,7 @@ Board.prototype.finalizeMove = function (toCell, pieceElement, clickedPiece) {
   pieceElement.classList.remove("moving");
   pieceElement.style.removeProperty("--moveX");
   pieceElement.style.removeProperty("--moveY");
+  this.currentTurn = this.currentTurn === 'white' ? 'black' : 'white';
   this.selectedPiece = null;
 };
 
@@ -238,6 +243,33 @@ Board.prototype.initiateGame = function () {
       new Pawn({ color: "black", position: String.fromCharCode(65 + i) + "7" })
     );
   }
+};
+
+Board.prototype.showWinModal = function (winner) {
+  const modal = document.getElementById('winModal');
+  const winnerMessage = document.getElementById('winnerMessage');
+  const closeButton = document.getElementById('closeModal');
+  const confetti = document.getElementsByClassName('confetti-animation')[0];
+
+  winnerMessage.textContent = `${winner.charAt(0).toUpperCase() + winner.slice(1)} wins!`;
+  modal.style.display = 'flex';
+  confetti.play();
+
+  closeButton.onclick = () => {
+    modal.style.display = 'none';
+    this.resetGame();
+  };
+};
+
+Board.prototype.resetGame = function() {
+
+  // Regenerate the board DOM
+  this.$el.innerHTML = '';
+  this.generateBoardDom();
+  this.selectedPiece = null;
+  this.currentTurn = 'white';
+  this.initiateGame();
+  this.renderAllPieces();
 };
 
 Board.prototype.renderAllPieces = function () {
