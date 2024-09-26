@@ -49,7 +49,3 @@ var Bishop = function(config) {
   
     return true;
   };
-  var Bishop = function(config){
-    this.type = 'bishop';
-    this.constructor(config);
-};
